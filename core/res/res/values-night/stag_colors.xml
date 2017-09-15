@@ -19,5 +19,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <color name="gradient_start">@color/gradient_start_dark</color>
     <color name="gradient_end">@color/gradient_end_dark</color>
+
+    <color name="toast_bg">@color/material_grey_800</color>
+    <color name="toast_text">@color/white</color>
 </resources>
 
