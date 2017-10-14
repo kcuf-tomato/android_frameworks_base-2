@@ -80,6 +80,7 @@ public class BrightnessController implements ToggleSlider.Listener {
     private int sliderMaxValue;
 
     private final Context mContext;
+    private final ImageView mIcon;
     private final ToggleSlider mControl;
     private final boolean mAutomaticAvailable;
     private final DisplayManager mDisplayManager;
