@@ -2455,7 +2455,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             Toast nope = Toast.makeText(mContext, R.string.nope_cant_kill,
                     Toast.LENGTH_SHORT);
             nope.show();
-        }
+	}
     }
 
     @Override
