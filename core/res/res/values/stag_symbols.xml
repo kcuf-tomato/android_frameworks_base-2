@@ -195,6 +195,9 @@
   <java-symbol type="string" name="systemui_restart_title" />
   <java-symbol type="string" name="systemui_restart_message" />
 
+  <!-- Seconds after which power button torch times out when proximity sensor is covered -->
+  <java-symbol type="integer" name="config_flashlightProximityTimeout" />
+
   <java-symbol type="bool" name="config_has_Soli" />
 
 </resources>
