@@ -5969,8 +5969,13 @@ public final class Settings {
         private static final Validator QS_PANEL_BG_USE_NEW_TINT_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
-         * Show data usage in QS header
+         * Change font style for the system lockscreen clock widget
          * @hide
+         */
+        public static final String LOCK_CLOCK_FONT_STYLE = "lock_clock_font_style";
+
+        /**
+         * Show data usage in QS header
          */
         public static final String QS_DATAUSAGE = "qs_datausage";
 
