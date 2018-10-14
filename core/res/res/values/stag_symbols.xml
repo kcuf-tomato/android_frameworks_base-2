@@ -1,5 +1,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Toast animation -->                                                                                          
+    <java-symbol type="style" name="Animation.Toast.Material" /> 
+
     <!-- StagOS gradients -->
     <java-symbol type="color" name="gradient_start_light" />
     <java-symbol type="color" name="gradient_start_dark" />
@@ -196,5 +199,8 @@
   <java-symbol type="string" name="systemui_restart_message" />
 
   <java-symbol type="bool" name="config_has_Soli" />
+
+  <!-- Screen off delay -->
+  <java-symbol type="integer" name="config_screen_off_delay" />
 
 </resources>
