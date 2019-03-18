@@ -111,9 +111,12 @@ public class KeyguardStatusView extends GridLayout implements
 
     private int mClockSelection;
     private int mLockClockFontStyle;
+    private int mLockDateFontStyle;
 
     private static final String LOCK_CLOCK_FONT_STYLE =
             "system:" + Settings.System.LOCK_CLOCK_FONT_STYLE;
+    private static final String LOCK_DATE_FONT_STYLE =
+            "system:" + Settings.System.LOCK_DATE_FONT_STYLE;
 
     private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
 
@@ -175,6 +178,7 @@ public class KeyguardStatusView extends GridLayout implements
         mHandler = new Handler(Looper.myLooper());
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, LOCK_CLOCK_FONT_STYLE);
+        tunerService.addTunable(this, LOCK_DATE_FONT_STYLE);
         onDensityOrFontScaleChanged();
     }
 
@@ -285,6 +289,9 @@ public class KeyguardStatusView extends GridLayout implements
         if (mOwnerInfo != null) {
             mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimensionPixelSize(R.dimen.widget_label_font_size));
+        }
+        if (mKeyguardSlice != null) {
+            mKeyguardSlice.setFontStyle(mLockDateFontStyle);
         }
         loadBottomMargin();
     }
@@ -412,6 +419,13 @@ public class KeyguardStatusView extends GridLayout implements
                 mLockClockFontStyle = 4;
                 try {
                     mLockClockFontStyle = Integer.valueOf(newValue);
+                } catch (NumberFormatException ex) {}
+                onDensityOrFontScaleChanged();
+                break;
+            case LOCK_DATE_FONT_STYLE:
+                mLockDateFontStyle = 14;
+                try {
+                    mLockDateFontStyle = Integer.valueOf(newValue);
                 } catch (NumberFormatException ex) {}
                 onDensityOrFontScaleChanged();
                 break;
