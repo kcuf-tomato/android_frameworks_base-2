@@ -371,6 +371,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
         setImageDrawable(null);
         updateIconDim();
+        mPressedView.setImageResource(R.drawable.fod_icon_pressed);
         invalidate();
     }
 
