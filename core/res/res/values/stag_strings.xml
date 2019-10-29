@@ -48,4 +48,7 @@
     <string name="systemui_restart_title">Restart SystemUI</string>
     <string name="systemui_restart_message">For the changes to take effect, a SystemUI restart is required. Restart SystemUI now?</string>
 
+    <!-- Pocket Lock -->
+    <string name="pocket_lock_message_long_press">Press and hold power button to unlock</string>
+
 </resources>
