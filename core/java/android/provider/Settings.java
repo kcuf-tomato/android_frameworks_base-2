@@ -5996,6 +5996,16 @@ public final class Settings {
         */
        public static final String LOCKSCREEN_ALBUM_ART_FILTER = "lockscreen_album_art_filter";
 
+        /**
+         * Set edge gesture Y dead zone
+         * 0 - disabled - stock behavior - default
+         * 1 - smaller top area of the screen
+         * 2 - small top area of the screen
+         * 3 - half top of the screen
+         * @hide
+         */
+        public static final String EDGE_GESTURE_Y_DEAD_ZONE = "edge_gesture_y_dead_zone";
+
        /**
          * QS blur
          * @hide

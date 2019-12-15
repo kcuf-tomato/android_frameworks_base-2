@@ -2200,6 +2200,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.HIDE_BACK_ARROW_GESTURE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.System.EDGE_GESTURE_Y_DEAD_ZONE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2221,6 +2224,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.HIDE_BACK_ARROW_GESTURE))) {
                 setHideArrowForBackGesture();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.EDGE_GESTURE_Y_DEAD_ZONE))) {
+                setEdgeGestureDeadZone();
             }
         }
 
@@ -2229,6 +2234,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             setQsRowsColumns();
             updateKeyguardStatusSettings();
             setHideArrowForBackGesture();
+            setEdgeGestureDeadZone();
+        }
+    }
+
+    private void setEdgeGestureDeadZone() {
+        if (getNavigationBarView() != null) {
+            getNavigationBarView().setEdgeGestureDeadZone();
         }
     }
 
