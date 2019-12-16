@@ -6227,6 +6227,12 @@ public final class Settings {
         /** @hide */
         private static final Validator ACCENT_COLOR_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
+	/**
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
