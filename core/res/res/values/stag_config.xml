@@ -147,4 +147,6 @@
 
     <!-- Class name of screen off fod handler -->
     <string name="config_fodScreenOffHandlerClass" translatable="false"></string>
+
+    <bool name="config_has_Soli">false</bool>
 </resources>
