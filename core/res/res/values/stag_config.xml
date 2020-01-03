@@ -148,8 +148,5 @@
     <!-- Class name of screen off fod handler -->
     <string name="config_fodScreenOffHandlerClass" translatable="false"></string>
 
-    <!-- Seconds after which power button torch times out when proximity sensor is covered -->
-    <integer name="config_flashlightProximityTimeout">300</integer>
-
     <bool name="config_has_Soli">false</bool>
 </resources>
