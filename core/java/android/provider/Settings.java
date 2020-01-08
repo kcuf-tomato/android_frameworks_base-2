@@ -5828,9 +5828,13 @@ public final class Settings {
         public static final String LOCKSCREEN_DATE_SELECTION = "lockscreen_date_selection";
 
         /**
-         * Whether to pulse ambient on new music tracks
-         *
+         * Change text size for system lockscreen clock widget
          * @hide
+         */
+        public static final String LOCK_CLOCK_FONT_SIZE = "lock_clock_font_size";
+
+        /**
+         * Whether to pulse ambient on new music tracks
          */
         public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
 
