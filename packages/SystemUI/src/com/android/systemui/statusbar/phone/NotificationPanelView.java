@@ -3472,10 +3472,6 @@ public class NotificationPanelView extends PanelView implements
         }
     }
 
-    public void updateKeyguardStatusSettings() {
-        mKeyguardStatusView.updateAll();
-    }
-
     public void setStatusAccessibilityImportance(int mode) {
         mKeyguardStatusView.setImportantForAccessibility(mode);
     }

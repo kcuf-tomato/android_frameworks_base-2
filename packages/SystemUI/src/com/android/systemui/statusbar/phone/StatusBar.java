@@ -2321,9 +2321,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                           Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG),
                           false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.LOCKSCREEN_CLOCK_SELECTION),
-                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2347,8 +2344,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 setGestureNavOptions();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.DISPLAY_CUTOUT_HIDDEN))) {
                 updateCutoutOverlay();
-            } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_CLOCK_SELECTION))) {
-                updateKeyguardStatusSettings();
             }
         }
 
@@ -2358,7 +2353,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             setGestureNavOptions();
             updateCutoutOverlay();
             setMaxKeyguardNotifConfig();
-            updateKeyguardStatusSettings();
         }
     }
 
@@ -2380,9 +2374,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    private void updateKeyguardStatusSettings() {
-        mNotificationPanel.updateKeyguardStatusSettings();
-    }
 
     /**
      * All changes to the status bar and notifications funnel through here and are batched.

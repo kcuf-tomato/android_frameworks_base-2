@@ -5981,6 +5981,12 @@ public final class Settings {
         public static final String LOCK_DATE_FONT_STYLE = "lock_date_font_style";
 
         /**
+         * Select which lockscreen clock style to display
+         * @hide
+         */
+        public static final String LOCKSCREEN_CLOCK_SELECTION = "lockscreen_clock_selection";
+
+        /**
          * Show data usage in QS header
          */
         public static final String QS_DATAUSAGE = "qs_datausage";
@@ -10813,12 +10819,6 @@ public final class Settings {
                 return valid;
             }
         };
-
-        /**
-         * Select which lockscreen clock style to display
-         * @hide
-         */
-        public static final String LOCKSCREEN_CLOCK_SELECTION = "lockscreen_clock_selection";
 
         /**
          * Whether the Lockdown button should be shown in the power menu.
