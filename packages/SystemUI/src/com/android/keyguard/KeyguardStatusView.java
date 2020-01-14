@@ -37,12 +37,14 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
 
 import com.android.internal.widget.LockPatternUtils;
+import com.android.keyguard.clock.CustomTextClock;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.ConfigurationController;
@@ -149,6 +151,7 @@ public class KeyguardStatusView extends GridLayout implements
     private TextView mLogoutView;
     private KeyguardClockSwitch mClockView;
     private View mSmallClockView;
+    private CustomTextClock mTextClock;
     private TextView mOwnerInfo;
     private TextClock mDefaultClockView;
     private KeyguardSliceView mKeyguardSlice;
@@ -333,6 +336,7 @@ public class KeyguardStatusView extends GridLayout implements
         mDefaultClockView = findViewById(R.id.default_clock_view);
         mClockView.setShowCurrentUserTime(true);
         mSmallClockView  = findViewById(R.id.clock_view);
+        mTextClock = findViewById(R.id.custom_text_clock_view);
         mOwnerInfo = findViewById(R.id.owner_info);
         mKeyguardSlice = findViewById(R.id.keyguard_status_area);
         mTextColor = mClockView.getCurrentTextColor();
@@ -386,11 +390,24 @@ public class KeyguardStatusView extends GridLayout implements
             mSmallClockView.setVisibility(mDarkAmount != 1
                     ? (mHideClock ? View.GONE : View.VISIBLE) : View.VISIBLE);
 
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
+                    mKeyguardSlice.getLayoutParams();
+
 	    if (mClockSelection == 2) {
                 mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimensionPixelSize(R.dimen.widget_clock_small_font_size));
             } else {
                 setFontSize(mClockView, mLockClockFontSize);
+            }
+
+            if (mClockSelection != 12 && mClockSelection != 13) {
+                mTextClock.setVisibility(View.GONE);
+                mSmallClockView.setVisibility(View.VISIBLE);
+                params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+            } else {
+                mTextClock.setVisibility(View.VISIBLE);
+                mSmallClockView.setVisibility(View.GONE);
+                params.addRule(RelativeLayout.BELOW, R.id.custom_text_clock_view);
             }
 
             if (mClockSelection >= 6 && mClockSelection <= 11)
@@ -553,6 +570,8 @@ public class KeyguardStatusView extends GridLayout implements
         } else if (mClockSelection == 11) { // sammy (accent darker hour)
             mClockView.setFormat12Hour(Html.fromHtml("<font color='#454545'>hh</font><br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("<font color='#454545'>kk</font><br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
+        } else if (mClockSelection == 12 || mClockSelection == 13) {
+            mTextClock.onTimeChanged();
         }
     }
 
