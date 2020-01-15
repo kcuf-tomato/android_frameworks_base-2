@@ -37,6 +37,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
@@ -119,6 +120,7 @@ public class KeyguardStatusView extends GridLayout implements
     private KeyguardClockSwitch mClockView;
     private View mSmallClockView;
     private TextView mOwnerInfo;
+    private TextClock mDefaultClockView;
     private KeyguardSliceView mKeyguardSlice;
     private View mNotificationIcons;
     private Runnable mPendingMarqueeStart;
@@ -294,6 +296,7 @@ public class KeyguardStatusView extends GridLayout implements
         }
 
         mClockView = findViewById(R.id.keyguard_clock_container);
+        mDefaultClockView = findViewById(R.id.default_clock_view);
         mClockView.setShowCurrentUserTime(true);
         mSmallClockView  = findViewById(R.id.clock_view);
         mOwnerInfo = findViewById(R.id.owner_info);
@@ -352,6 +355,10 @@ public class KeyguardStatusView extends GridLayout implements
             } else {
                 setFontSize(mClockView, mLockClockFontSize);
             }
+
+            if (mClockSelection == 8 || mClockSelection == 9
+                    || mClockSelection == 10 || mClockSelection == 11)
+                mDefaultClockView.setLineSpacing(0, 0.8f);
 
             switch (mClockSelection) {
                 case 1: // hidden
