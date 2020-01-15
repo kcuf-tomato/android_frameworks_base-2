@@ -6261,6 +6261,12 @@ public final class Settings {
                 new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
 
         /**
+         * FOD pressed state
+         * @hide
+         */
+        public static final String FOD_PRESSED_STATE = "fod_pressed_state";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6420,6 +6426,7 @@ public final class Settings {
             WIRELESS_CHARGING_ANIMATION,
             ACCENT_COLOR,
             FOD_ICON,
+            FOD_PRESSED_STATE,
             FOD_RECOGNIZING_ANIMATION,
             FOD_ANIM,
         };
@@ -6852,6 +6859,7 @@ public final class Settings {
             VALIDATORS.put(WIRELESS_CHARGING_ANIMATION, WIRELESS_CHARGING_ANIMATION_VALIDATOR);
             VALIDATORS.put(ACCENT_COLOR, ACCENT_COLOR_VALIDATOR);
             VALIDATORS.put(FOD_ICON, FOD_ICON_VALIDATOR);
+            VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
             VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
             VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
         }
