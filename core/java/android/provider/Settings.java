@@ -5936,6 +5936,12 @@ public final class Settings {
         public static final String QS_COLUMNS_PORTRAIT = "qs_columns_portrait";
 
         /**
+         * FOD recognizing animation
+         * @hide
+         */
+        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /**
          * How many columns to show in the qs panel when in landscape
          * @hide
          */
