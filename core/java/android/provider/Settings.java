@@ -6205,6 +6205,24 @@ public final class Settings {
                 BOOLEAN_VALIDATOR;
 
         /**
+         * Text clock alignment
+         * @hide
+         */
+        public static final String TEXT_CLOCK_ALIGNMENT = "text_clock_alignment";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_ALIGNMENT_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
+         * Text clock padding
+         * @hide
+         */
+        public static final String TEXT_CLOCK_PADDING = "text_clock_padding";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_PADDING_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
          * Enable\Disable Bluetooth Battery bar in quick settings
          * @hide
          */
@@ -6397,6 +6415,8 @@ public final class Settings {
             LOCK_SCREEN_CUSTOM_NOTIF,
             LOCKSCREEN_MAX_NOTIF_CONFIG,
             WIRELESS_CHARGING_ANIMATION,
+            TEXT_CLOCK_ALIGNMENT,
+            TEXT_CLOCK_PADDING,
         };
 
         /**
@@ -6623,6 +6643,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCK_SCREEN_CUSTOM_NOTIF);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MAX_NOTIF_CONFIG);
             PRIVATE_SETTINGS.add(WIRELESS_CHARGING_ANIMATION);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_ALIGNMENT);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
         }
 
         /**
@@ -6821,6 +6843,8 @@ public final class Settings {
             VALIDATORS.put(LOCK_SCREEN_CUSTOM_NOTIF, LOCK_SCREEN_CUSTOM_NOTIF_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_MAX_NOTIF_CONFIG, LOCKSCREEN_MAX_NOTIF_CONFIG_VALIDATOR);
             VALIDATORS.put(WIRELESS_CHARGING_ANIMATION, WIRELESS_CHARGING_ANIMATION_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);
         }
 
         /**
