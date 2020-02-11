@@ -5811,8 +5811,13 @@ public final class Settings {
         public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
 
         /**
-         * Whether to vibrate on notifications
+         * Hide lockscreen date widget and other slices
          * @hide
+         */
+        public static final String LOCKSCREEN_DATE_HIDE = "lockscreen_date_hide";
+
+        /**
+         * Whether to vibrate on notifications
          */
         public static final String VIBRATE_ON_NOTIFICATIONS = "vibrate_on_notifications";
 
