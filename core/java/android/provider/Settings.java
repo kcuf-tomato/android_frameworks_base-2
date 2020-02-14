@@ -5834,6 +5834,13 @@ public final class Settings {
         public static final String LOCK_CLOCK_FONT_SIZE = "lock_clock_font_size";
 
         /**
+         * Change font size for the system lockscreen date
+         *
+         * @hide
+         */
+        public static final String LOCK_DATE_FONT_SIZE = "lock_date_font_size";
+
+        /**
          * Whether to pulse ambient on new music tracks
          */
         public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
