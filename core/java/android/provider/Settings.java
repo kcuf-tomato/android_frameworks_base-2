@@ -5935,11 +5935,18 @@ public final class Settings {
          */
         public static final String QS_COLUMNS_PORTRAIT = "qs_columns_portrait";
 
+        /** @hide */
+        private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
+
         /**
          * FOD recognizing animation
          * @hide
          */
         public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /** @hide */
+        private static final Validator FOD_RECOGNIZING_ANIMATION_VALIDATOR =
+                BOOLEAN_VALIDATOR;
 
         /**
          * How many columns to show in the qs panel when in landscape
@@ -6239,11 +6246,19 @@ public final class Settings {
          */
         public static final String FOD_ICON = "fod_icon";
 
+        /** @hide */
+        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 2);
+
         /**
          * FOD recognizing animation picker
          * @hide
          */
         public static final String FOD_ANIM = "fod_anim";
+
+        /** @hide */
+        private static final Validator FOD_ANIM_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -6404,6 +6419,9 @@ public final class Settings {
             LOCKSCREEN_MAX_NOTIF_CONFIG,
             WIRELESS_CHARGING_ANIMATION,
             ACCENT_COLOR,
+            FOD_ICON,
+            FOD_RECOGNIZING_ANIMATION,
+            FOD_ANIM,
         };
 
         /**
@@ -6833,6 +6851,9 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_MAX_NOTIF_CONFIG, LOCKSCREEN_MAX_NOTIF_CONFIG_VALIDATOR);
             VALIDATORS.put(WIRELESS_CHARGING_ANIMATION, WIRELESS_CHARGING_ANIMATION_VALIDATOR);
             VALIDATORS.put(ACCENT_COLOR, ACCENT_COLOR_VALIDATOR);
+            VALIDATORS.put(FOD_ICON, FOD_ICON_VALIDATOR);
+            VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
+            VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
         }
 
         /**
