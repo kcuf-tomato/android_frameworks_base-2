@@ -392,11 +392,8 @@ public class KeyguardStatusView extends GridLayout implements
             mKeyguardSlice.setFontStyle(mLockDateFontStyle);
             mKeyguardSlice.setDateSize(mLockDateFontSize);
 
-            if (mLockDateHide) {
-                 mKeyguardSlice.setVisibility(View.GONE);
-            } else {
-                 mKeyguardSlice.setVisibility(View.VISIBLE);
-            }
+            // Dont hide slice view in doze
+            mKeyguardSlice.setVisibility(mDarkAmount != 1 ? (mLockDateHide ? View.GONE : View.VISIBLE) : View.VISIBLE);
         }
 
         switch (mDateSelection) {
@@ -1111,6 +1108,7 @@ public class KeyguardStatusView extends GridLayout implements
         final int blendedTextColor = ColorUtils.blendARGB(mTextColor, Color.WHITE, mDarkAmount);
         mKeyguardSlice.setDarkAmount(mDarkAmount);
         mClockView.setTextColor(blendedTextColor);
+        onDensityOrFontScaleChanged();
     }
 
     private void layoutOwnerInfo() {
