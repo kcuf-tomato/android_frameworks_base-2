@@ -165,6 +165,14 @@ public class FODCircleView extends ImageView implements OnTouchListener {
         public void onKeyguardVisibilityChanged(boolean showing) {
             super.onKeyguardVisibilityChanged(showing);
             mIsInsideCircle = false;
+	}
+
+	@Override
+        public void onBiometricRunningStateChanged(boolean running,
+            BiometricSourceType biometricSourceType) {
+            if (biometricSourceType == BiometricSourceType.FINGERPRINT){
+                dispatchFodFingerprintRunningStateChanged(running);
+            }
         }
 
         @Override
