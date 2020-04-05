@@ -538,7 +538,15 @@ public class StagUtils {
         }
     }
 
-   // Method to detect whether an overlay is enabled or not
+    public static boolean shouldSetNavbarHeight(Context context) {
+        boolean setNavbarHeight = Settings.System.getIntForUser(context.getContentResolver(),
+            Settings.System.NAVIGATION_HANDLE_WIDTH, 2, UserHandle.USER_CURRENT) != 0;
+        boolean twoThreeButtonEnabled = StagUtils.isThemeEnabled("com.android.internal.systemui.navbar.twobutton") ||
+                StagUtils.isThemeEnabled("com.android.internal.systemui.navbar.threebutton");
+        return setNavbarHeight || twoThreeButtonEnabled;
+    }
+
+    // Method to detect whether an overlay is enabled or not
     public static boolean isThemeEnabled(String packageName) {
         mOverlayService = new OverlayManager();
         try {
