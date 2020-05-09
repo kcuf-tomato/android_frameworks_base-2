@@ -5364,6 +5364,12 @@ public final class Settings {
         public static final String STATUS_BAR_CARRIER_FONT_STYLE = "status_bar_carrier_font_style";
 
         /**
+         * Select whether to hide or show clock
+         * @hide
+         */
+        public static final String LOCKSCREEN_HIDE_CLOCK = "lockscreen_hide_clock";
+
+        /**
          * Whether to show the battery bar
          * @hide
          */
