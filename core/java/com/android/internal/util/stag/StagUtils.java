@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.input.InputManager;
+import android.media.AudioManager;
 import android.os.Looper;
 import android.content.res.Resources;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -38,6 +39,7 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.UserHandle;
+import android.provider.MediaStore;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -415,4 +417,37 @@ public class StagUtils {
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
         pm.setComponentEnabledSetting(componentName, state, PackageManager.DONT_KILL_APP);
     }
+
+
+    // Launch camera
+    public static void launchCamera(Context context) {
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    // Launch voice search
+    public static void launchVoiceSearch(Context context) {
+        Intent intent = new Intent(Intent.ACTION_SEARCH_LONG_PRESS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public static void sendSystemKeyToStatusBar(int keyCode) {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.handleSystemKey(keyCode);
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
+    }
+
+    // Volume panel
+    public static void toggleVolumePanel(Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        am.adjustVolume(AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
+    }
+
 }
