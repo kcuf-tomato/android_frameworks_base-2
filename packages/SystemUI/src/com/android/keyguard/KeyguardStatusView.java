@@ -1819,7 +1819,7 @@ public class KeyguardStatusView extends GridLayout implements
                     break;
             }
             mClockView.textClockAllignment();
-        } else {
+        } else if (isDefaultClock()) {
             mClockView.centerAllignment();
         }
     }
