@@ -532,7 +532,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     private int mMaxKeyguardNotifConfig;
 
     // status bar notification ticker
-    public int mTickerEnabled;
+    public boolean mTickerEnabled;
+    public int mTickerMode;
     public Ticker mTicker;
     private boolean mTicking;
     private int mTickerAnimationMode;
@@ -1778,20 +1779,19 @@ public class StatusBar extends SystemUI implements DemoMode,
         return mStatusBarWindow;
     }
 
-    public void createTicker(int tickerMode, Context ctx, View statusBarView,
+    public void createTicker(Context ctx, View statusBarView,
                              TickerView tickerTextView, ImageSwitcher tickerIcon, View tickerView) {
-        mTickerEnabled = tickerMode;
         if (mTicker == null) {
             mTicker = new MyTicker(ctx, statusBarView);
         }
         ((MyTicker)mTicker).setView(tickerView);
         tickerTextView.setTicker(mTicker);
         mTicker.setViews(tickerTextView, tickerIcon);
-     }
+    }
 
     public void disableTicker() {
-        mTickerEnabled = 0;
-     }
+        mTickerEnabled = false;
+    }
 
     public int getStatusBarHeight() {
         if (mNaturalBarHeight < 0) {
@@ -3137,7 +3137,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public void tick(StatusBarNotification n, boolean firstTime, boolean isMusic,
                       MediaMetadata metaMediaData, String notificationText) {
-        if (mTicker == null || mTickerEnabled == 0) return;
+        if (mTicker == null || !mTickerEnabled) return;
 
         // no ticking on keyguard, we have carrier name in the statusbar
         if (isKeyguardShowing()) return;
@@ -3171,8 +3171,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         MyTicker(Context context, View sb) {
             super(context, sb, mTickerAnimationMode, mTickerTickDuration);
-            if (mTickerEnabled == 0) {
-                Log.w(TAG, "MyTicker instantiated with mTickerEnabled=0", new Throwable());
+            if (!mTickerEnabled) {
+                Log.w(TAG, "MyTicker instantiated with mTickerEnabled", new Throwable());
             }
         }
 
@@ -3182,7 +3182,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         @Override
         public void tickerStarting() {
-            if (mTicker == null || mTickerEnabled == 0) return;
+            if (mTicker == null || !mTickerEnabled) return;
             mTicking = true;
             Animation outAnim, inAnim;
             if (mTickerAnimationMode == 1) {
@@ -3274,7 +3274,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     public void haltTicker() {
-        if (mTicker != null && mTickerEnabled != 0) {
+        if (mTicker != null && mTickerEnabled) {
             mTicker.halt();
         }
     }
@@ -3295,9 +3295,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                     + " scroll " + mStackScroller.getScrollX()
                     + "," + mStackScroller.getScrollY());
             pw.println("  mTickerEnabled=" + mTickerEnabled);
-            if (mTickerEnabled != 0) {
+            if (mTickerEnabled) {
                 pw.println("  mTicking=" + mTicking);
-	    }
+	        }
         }
 
         pw.print("  mInteractingWindows="); pw.println(mInteractingWindows);
@@ -4960,6 +4960,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.STATUS_BAR_SHOW_TICKER),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_TICKER_MODE),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_TICKER_ANIMATION_MODE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -5012,8 +5015,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setUseLessBoringHeadsUp();
             setPulseOnNewTracks();
             updateQsPanelResources();
-            updateTickerAnimation();
-            updateTickerTickDuration();
+            updateTicker();
         }
     }
 
@@ -5682,18 +5684,17 @@ public class StatusBar extends SystemUI implements DemoMode,
         return mLockscreenUserManager.isCurrentProfile(notificationUserId);
     }
 
-    private void updateTickerAnimation() {
+    private void updateTicker() {
+        mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_SHOW_TICKER, 0, UserHandle.USER_CURRENT) == 1;
+        mTickerMode = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_TICKER_MODE, 0, UserHandle.USER_CURRENT);
         mTickerAnimationMode = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_TICKER_ANIMATION_MODE, 0, UserHandle.USER_CURRENT);
-        if (mTicker != null) {
-            mTicker.updateAnimation(mTickerAnimationMode);
-        }
-    }
-
-    private void updateTickerTickDuration() {
         mTickerTickDuration = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_TICKER_TICK_DURATION, 3000, UserHandle.USER_CURRENT);
         if (mTicker != null) {
+            mTicker.updateAnimation(mTickerAnimationMode);
             mTicker.updateTickDuration(mTickerTickDuration);
         }
     }
