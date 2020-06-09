@@ -22,7 +22,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRouter.RouteInfo;
-import android.os.SystemProperties;
 import android.provider.Settings;
 import android.service.quicksettings.Tile;
 import android.util.Log;
@@ -68,7 +67,6 @@ public class CastTile extends QSTileImpl<BooleanState> {
     private final ActivityStarter mActivityStarter;
     private Dialog mDialog;
     private boolean mWifiConnected;
-    private static final String WFD_ENABLE = "persist.debug.wfd.enable";
 
     @Inject
     public CastTile(QSHost host, CastController castController, KeyguardMonitor keyguardMonitor,
@@ -251,17 +249,10 @@ public class CastTile extends QSTileImpl<BooleanState> {
                         NetworkController.IconState qsIcon, boolean activityIn, boolean activityOut,
                         String description, boolean isTransient, String statusLabel) {
                     // statusIcon.visible has the connected status information
-                    if(SystemProperties.getBoolean(WFD_ENABLE, false)) {
-                        if(enabled != mWifiConnected) {
-                            mWifiConnected = enabled;
-                            refreshState();
-                        }
-                    } else {
-                        boolean enabledAndConnected = enabled && qsIcon.visible;
-                        if (enabledAndConnected != mWifiConnected) {
-                            mWifiConnected = enabledAndConnected;
-                            refreshState();
-                        }
+                    boolean enabledAndConnected = enabled && qsIcon.visible;
+                    if (enabledAndConnected != mWifiConnected) {
+                        mWifiConnected = enabledAndConnected;
+                        refreshState();
                     }
                 }
             };
