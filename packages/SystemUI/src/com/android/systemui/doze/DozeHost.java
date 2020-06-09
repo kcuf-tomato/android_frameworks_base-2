@@ -90,13 +90,11 @@ public interface DozeHost {
 
         default void wakeUpFromDoubleTap(int pulseReason) {}
 
-        default void toggleFlashlightProximityCheck() {}
+        default void toggleCameraFlash() {}
     }
 
     interface PulseCallback {
         void onPulseStarted();
         void onPulseFinished();
     }
-
-    void performToggleFlashlight();
 }
