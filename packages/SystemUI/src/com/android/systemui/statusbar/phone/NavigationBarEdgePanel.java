@@ -24,9 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.SystemClock;
-import android.os.UserHandle;
 import android.os.VibrationEffect;
-import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.MathUtils;
 import android.view.ContextThemeWrapper;
@@ -131,10 +129,6 @@ public class NavigationBarEdgePanel extends View {
     private final float mBaseTranslation;
     private final float mArrowLength;
     private final float mArrowThickness;
-    private float mLongSwipeThreshold;
-    private boolean mAlmostLongSwipe;
-    private boolean mIsExtendedSwipe;
-    private Context mContext;
 
     /**
      * The minimum delta needed in movement for the arrow to change direction / stop triggering back
@@ -252,8 +246,6 @@ public class NavigationBarEdgePanel extends View {
     public NavigationBarEdgePanel(Context context) {
         super(context);
 
-        mContext = context;
-
         mVibratorHelper = Dependency.get(VibratorHelper.class);
 
         mDensity = context.getResources().getDisplayMetrics().density;
@@ -325,8 +317,6 @@ public class NavigationBarEdgePanel extends View {
         mSwipeThreshold = context.getResources()
                 .getDimension(R.dimen.navigation_edge_action_drag_threshold);
         setVisibility(GONE);
-
-        setExtendedSwipe();
     }
 
     @Override
@@ -397,7 +387,6 @@ public class NavigationBarEdgePanel extends View {
         mVelocityTracker.addMovement(event);
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN : {
-                mAlmostLongSwipe = false;
                 mDragSlopPassed = false;
                 resetOnDown();
                 mStartX = event.getX();
@@ -447,9 +436,6 @@ public class NavigationBarEdgePanel extends View {
         float x = (polarToCartX(mCurrentAngle) * mArrowLength);
         float y = (polarToCartY(mCurrentAngle) * mArrowLength);
         Path arrowPath = calculatePath(x,y);
-        if (mAlmostLongSwipe) {
-            arrowPath.addPath(calculatePath(x,y), mArrowThickness * 2.0f * (mIsLeftPanel ? 1 : -1), 0.0f);
-        }
         if (mShowProtection) {
             canvas.drawPath(arrowPath, mProtectionPaint);
         }
@@ -470,7 +456,6 @@ public class NavigationBarEdgePanel extends View {
                 R.dimen.navigation_edge_panel_padding);
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         mScreenSize = Math.min(metrics.widthPixels, metrics.heightPixels);
-        mLongSwipeThreshold = metrics.widthPixels * 0.45f;
     }
 
     private void updateArrowDirection() {
@@ -614,7 +599,6 @@ public class NavigationBarEdgePanel extends View {
         float x = event.getX();
         float y = event.getY();
         float touchTranslation = MathUtils.abs(x - mStartX);
-        mAlmostLongSwipe = mIsExtendedSwipe && (touchTranslation > mLongSwipeThreshold);
         float yOffset = y - mStartY;
         float delta = touchTranslation - mPreviousTouchTranslation;
         if (Math.abs(delta) > 0) {
@@ -766,11 +750,5 @@ public class NavigationBarEdgePanel extends View {
 
     private float dp(float dp) {
         return mDensity * dp;
-    }
-
-    public void setExtendedSwipe() {
-        mIsExtendedSwipe = Settings.System.getIntForUser(mContext.getContentResolver(),
-            Settings.System.BACK_SWIPE_EXTENDED, 0,
-            UserHandle.USER_CURRENT) != 0;
     }
 }
