@@ -790,7 +790,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mBubbleController = Dependency.get(BubbleController.class);
         mBubbleController.setExpandListener(mBubbleExpandListener);
         mActivityIntentHelper = new ActivityIntentHelper(mContext);
-        final KeyguardSliceProvider sliceProvider = KeyguardSliceProviderGoogle.getAttachedInstance();
+        final KeyguardSliceProvider sliceProvider = KeyguardSliceProvider.getAttachedInstance();
         if (sliceProvider != null) {
             sliceProvider.initDependencies(mMediaManager, mStatusBarStateController,
                     mKeyguardBypassController, DozeParameters.getInstance(mContext));
@@ -5262,7 +5262,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     public boolean isDoubleTapOnMusicTicker(float eventX, float eventY) {
-        final KeyguardSliceProvider sliceProvider = KeyguardSliceProviderGoogle.getAttachedInstance();
+        final KeyguardSliceProvider sliceProvider = KeyguardSliceProvider.getAttachedInstance();
         View trackTitleView = null;
         if (mNotificationPanel != null) {
             trackTitleView = mNotificationPanel.getKeyguardStatusView().getKeyguardSliceView().getTitleView();
