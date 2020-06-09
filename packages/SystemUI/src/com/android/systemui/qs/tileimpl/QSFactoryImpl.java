@@ -46,7 +46,6 @@ import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HornsTile;
-import com.android.systemui.qs.tiles.ImmersiveTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
@@ -111,7 +110,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SmartPixelsTile> mSmartPixelsTileProvider;
     private final Provider<VolumeTile> mVolumeTileProvider;
     private final Provider<HornsTile> mHornsTileProvider;
-    private final Provider<ImmersiveTile> mImmersiveTileProvider;
 
     private QSTileHost mHost;
 
@@ -150,8 +148,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SmartPixelsTile> smartPixelsTileProvider,
             Provider<FPSInfoTile> fpsInfoTileProvider,
             Provider<VolumeTile> volumeTileProvider,
-            Provider<HornsTile> hornsTileProvider),
-            Provider<ImmersiveTile> immersiveTileProvider) {
+            Provider<HornsTile> hornsTileProvider) {
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
         mCellularTileProvider = cellularTileProvider;
@@ -187,7 +184,6 @@ public class QSFactoryImpl implements QSFactory {
         mFPSInfoTileProvider = fpsInfoTileProvider;
         mVolumeTileProvider = volumeTileProvider;
         mHornsTileProvider = hornsTileProvider;
-        mImmersiveTileProvider = immersiveTileProvider;
     }
 
     public void setHost(QSTileHost host) {
@@ -277,8 +273,6 @@ public class QSFactoryImpl implements QSFactory {
                 return mVolumeTileProvider.get();
 	    case "horns":
                 return mHornsTileProvider.get();
-            case "immersive":
-                return mImmersiveTileProvider.get();
         }
 
         // Intent tiles.
