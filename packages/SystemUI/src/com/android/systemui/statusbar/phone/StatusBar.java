@@ -2279,9 +2279,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.Secure.LOCKSCREEN_CLOCK_SELECTION),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_CLOCK),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LONG_BACK_SWIPE_TIMEOUT),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -2313,8 +2310,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                     uri.equals(Settings.System.getUriFor(Settings.System.OMNI_QS_QUICKBAR_COLUMNS)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY))) {
                 setQsRowsColumns();
-            } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_CLOCK_SELECTION)) ||
-                    uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_CLOCK))) {
+            } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_CLOCK_SELECTION))) {
                 updateKeyguardStatusSettings();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.BACK_SWIPE_EXTENDED)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.LONG_BACK_SWIPE_TIMEOUT)) ||

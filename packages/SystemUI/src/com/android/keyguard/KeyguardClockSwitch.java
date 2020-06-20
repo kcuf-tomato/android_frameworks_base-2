@@ -223,11 +223,6 @@ public class KeyguardClockSwitch extends RelativeLayout {
         setClockPlugin(null);
     }
 
-    private boolean showLockClockInfo() {
-        return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_INFO, 1) == 1;
-    }
-
     private int getLockClockFont() {
         return Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.LOCK_CLOCK_FONTS, 28);
@@ -261,7 +256,7 @@ public class KeyguardClockSwitch extends RelativeLayout {
                 mClockView.setVisibility(View.VISIBLE);
                 mClockViewBold.setVisibility(View.INVISIBLE);
             }
-            mKeyguardStatusArea.setVisibility(showLockClockInfo() ? View.VISIBLE : View.GONE);
+            mKeyguardStatusArea.setVisibility(View.VISIBLE);
             return;
         }
         // Attach small and big clock views to hierarchy.
@@ -279,7 +274,9 @@ public class KeyguardClockSwitch extends RelativeLayout {
             updateBigClockVisibility();
         }
         // Hide default clock.
-        mKeyguardStatusArea.setVisibility(showLockClockInfo() ? View.VISIBLE : View.GONE);
+        if (!plugin.shouldShowStatusArea()) {
+            mKeyguardStatusArea.setVisibility(View.GONE);
+        }
         // Initialize plugin parameters.
         mClockPlugin = plugin;
         mClockPlugin.setStyle(getPaint().getStyle());
