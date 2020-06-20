@@ -28,16 +28,11 @@ import android.animation.PropertyValuesHolder;
 import android.annotation.ColorInt;
 import android.annotation.StyleRes;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.Trace;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
@@ -48,7 +43,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
@@ -101,7 +95,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     private Uri mKeyguardSliceUri;
     @VisibleForTesting
     TextView mTitle;
-    private RelativeLayout mRowContainer;
     private Row mRow;
     private int mTextColor;
     private float mDarkAmount = 0;
@@ -118,7 +111,7 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     private boolean mHasHeader;
     private final int mRowWithHeaderPadding;
     private final int mRowPadding;
-    private int mRowTextSize;
+    private float mRowTextSize;
     private float mRowWithHeaderTextSize;
 
     @Inject
@@ -152,13 +145,12 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     protected void onFinishInflate() {
         super.onFinishInflate();
         mTitle = findViewById(R.id.title);
-        mRowContainer = findViewById(R.id.row_maincenter);
         mRow = findViewById(R.id.row);
         mTextColor = Utils.getColorAttrDefaultColor(mContext, R.attr.wallpaperTextColor);
-        mIconSize = mRowTextSize;
+        mIconSize = (int) mContext.getResources().getDimension(R.dimen.widget_icon_size);
         mIconSizeWithHeader = (int) mContext.getResources().getDimension(R.dimen.header_icon_size);
         mRowTextSize = mContext.getResources().getDimensionPixelSize(
-                R.dimen.lock_date_font_size_18);
+                R.dimen.widget_label_font_size);
         mRowWithHeaderTextSize = mContext.getResources().getDimensionPixelSize(
                 R.dimen.header_row_font_size);
         mTitle.setOnClickListener(this);
@@ -193,24 +185,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     public void onVisibilityAggregated(boolean isVisible) {
         super.onVisibilityAggregated(isVisible);
         setLayoutTransition(isVisible ? mLayoutTransition : null);
-    }
-
-    public void setRowGravity(int gravity) {
-        mRow.setGravity(gravity);
-    }
-
-    public void setRowPadding(int left, int top, int right, int bottom) {
-        mRow.setPadding(left, top, right, bottom);
-    }
-
-    private int getLockDateSize() {
-        return Settings.System.getInt(mContext.getContentResolver(),
-               Settings.System.LOCKDATE_FONT_SIZE, 18);
-    }
-
-    private int getLockDateFont() {
-        return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.LOCK_DATE_FONTS, 28);
     }
 
     /**
@@ -265,6 +239,9 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         final int blendedColor = getTextColor();
         final int startIndex = mHasHeader ? 1 : 0; // First item is header; skip it
         mRow.setVisibility(subItemsCount > 0 ? VISIBLE : GONE);
+        LinearLayout.LayoutParams layoutParams = (LayoutParams) mRow.getLayoutParams();
+        layoutParams.topMargin = mHasHeader ? mRowWithHeaderPadding : mRowPadding;
+        mRow.setLayoutParams(layoutParams);
 
         for (int i = startIndex; i < subItemsCount; i++) {
             RowContent rc = (RowContent) subItems.get(i);
@@ -291,7 +268,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
             button.setContentDescription(rc.getContentDescription());
             button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     mHasHeader ? mRowWithHeaderTextSize : mRowTextSize);
-            refreshLockDateFont(button);
 
             Drawable iconDrawable = null;
             SliceItem icon = SliceQuery.find(item.getSlice(),
@@ -331,16 +307,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         updateTextColors();
     }
 
-    public void setViewsTypeface(Typeface tf) {
-        int childCount = mRow.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View v = mRow.getChildAt(i);
-            if (v instanceof Button) {
-                ((Button) v).setTypeface(tf);
-            }
-        }
-    }
-
     private void updateTextColors() {
         final int blendedColor = getTextColor();
         mTitle.setTextColor(blendedColor);
@@ -351,34 +317,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
                 ((Button) v).setTextColor(blendedColor);
             }
         }
-    }
-
-    public void setViewsTextStyles(float textSp, boolean textAllCaps) {
-        int childCount = mRow.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View v = mRow.getChildAt(i);
-            if (v instanceof Button) {
-                ((Button) v).setLetterSpacing(textSp);
-                ((Button) v).setAllCaps(textAllCaps);
-            }
-        }
-    }
-
-    public void setViewBackground(Drawable drawRes) {
-        setViewBackground(drawRes, 255);
-    }
-
-    public void setViewBackground(Drawable drawRes, int bgAlpha) {
-        mRow.setBackground(drawRes);
-        mRow.getBackground().setAlpha(bgAlpha);
-    }
-
-    public void setViewBackgroundResource(int drawRes) {
-        mRow.setBackgroundResource(drawRes);
-    }
-
-    public void setViewPadding(int left, int top, int right, int bottom) {
-        mRow.setPadding(left,top,right,bottom);
     }
 
     @Override
@@ -447,10 +385,10 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
 
     @Override
     public void onDensityOrFontScaleChanged() {
-        mIconSize = mRowTextSize;
+        mIconSize = mContext.getResources().getDimensionPixelSize(R.dimen.widget_icon_size);
         mIconSizeWithHeader = (int) mContext.getResources().getDimension(R.dimen.header_icon_size);
         mRowTextSize = mContext.getResources().getDimensionPixelSize(
-                R.dimen.lock_date_font_size_18);
+                R.dimen.widget_label_font_size);
         mRowWithHeaderTextSize = mContext.getResources().getDimensionPixelSize(
                 R.dimen.header_row_font_size);
     }
@@ -473,222 +411,6 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         }
         onChanged(slice);
         Trace.endSection();
-    }
-
-    public void refreshdatesize() {
-        final Resources res = getContext().getResources();
-        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
-        int lockDateSize = isPrimary ? getLockDateSize() : 18;
-
-        switch (lockDateSize) {
-            case 10:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_10);
-                break;
-            case 11:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_11);
-                break;
-            case 12:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_12);
-                break;
-            case 13:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_13);
-                break;
-            case 14:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_14);
-                break;
-            case 15:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_15);
-                break;
-            case 16:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_16);
-                break;
-            case 17:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_17);
-                break;
-            case 18:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_18);
-                break;
-            case 19:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_19);
-                break;
-            case 20:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_20);
-                break;
-            case 21:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_21);
-                break;
-            case 22:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_22);
-                break;
-            case 23:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_23);
-                break;
-            case 24:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_24);
-                break;
-            case 25:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_25);
-                break;
-            case 26:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_26);
-                break;
-            case 27:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_27);
-                break;
-            case 28:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_28);
-                break;
-            case 29:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_29);
-                break;
-            case 30:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_30);
-                break;
-            case 31:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_31);
-                break;
-            case 32:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_32);
-                break;
-            case 33:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_33);
-                break;
-            case 34:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_34);
-                break;
-            case 35:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_35);
-                break;
-            case 36:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_36);
-                break;
-            case 37:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_37);
-                break;
-            case 38:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_38);
-                break;
-            case 39:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_39);
-                break;
-            case 40:
-                mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_40);
-                break;
-        }
-    }
-
-    private void refreshLockDateFont(KeyguardSliceButton button) {
-        final Resources res = getContext().getResources();
-        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
-        int lockDateFont = isPrimary ? getLockDateFont() : 28;
-        if (lockDateFont == 0) {
-            button.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        }
-        if (lockDateFont == 1) {
-            button.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
-        }
-        if (lockDateFont == 2) {
-            button.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
-        }
-        if (lockDateFont == 3) {
-            button.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
-        }
-        if (lockDateFont == 4) {
-            button.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
-        }
-        if (lockDateFont == 5) {
-            button.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        }
-        if (lockDateFont == 6) {
-            button.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
-        }
-        if (lockDateFont == 7) {
-            button.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
-        }
-        if (lockDateFont == 8) {
-            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
-        }
-        if (lockDateFont == 9) {
-            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
-        }
-        if (lockDateFont == 10) {
-            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
-        }
-        if (lockDateFont == 11) {
-            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
-        }
-        if (lockDateFont == 12) {
-            button.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        }
-        if (lockDateFont == 13) {
-            button.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
-        }
-        if (lockDateFont == 14) {
-            button.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
-        }
-        if (lockDateFont == 15) {
-            button.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
-        }
-        if (lockDateFont == 16) {
-            button.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
-        }
-        if (lockDateFont == 17) {
-            button.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
-        }
-        if (lockDateFont == 18) {
-            button.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
-        }
-        if (lockDateFont == 19) {
-            button.setTypeface(Typeface.create("cursive", Typeface.BOLD));
-        }
-        if (lockDateFont == 20) {
-            button.setTypeface(Typeface.create("casual", Typeface.NORMAL));
-        }
-        if (lockDateFont == 21) {
-            button.setTypeface(Typeface.create("serif", Typeface.NORMAL));
-        }
-        if (lockDateFont == 22) {
-            button.setTypeface(Typeface.create("serif", Typeface.ITALIC));
-        }
-        if (lockDateFont == 23) {
-            button.setTypeface(Typeface.create("serif", Typeface.BOLD));
-        }
-        if (lockDateFont == 24) {
-            button.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
-        }
-        if (lockDateFont == 25) {
-            button.setTypeface(Typeface.create("gobold-light-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 26) {
-            button.setTypeface(Typeface.create("roadrage-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 27) {
-            button.setTypeface(Typeface.create("snowstorm-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 28) {
-            button.setTypeface(Typeface.create("googlesans-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 29) {
-            button.setTypeface(Typeface.create("neoneon-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 30) {
-            button.setTypeface(Typeface.create("themeable-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 31) {
-            button.setTypeface(Typeface.create("samsung-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 32) {
-            button.setTypeface(Typeface.create("mexcellent-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 33) {
-            button.setTypeface(Typeface.create("burnstown-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 34) {
-            button.setTypeface(Typeface.create("dumbledor-sys", Typeface.NORMAL));
-        }
-        if (lockDateFont == 35) {
-            button.setTypeface(Typeface.create("phantombold-sys", Typeface.NORMAL));
-        }
     }
 
     public void dump(FileDescriptor fd, PrintWriter pw, String[] args) {
@@ -775,7 +497,7 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View child = getChildAt(i);
-                if (child instanceof KeyguardSliceButton && childCount > 3) {
+                if (child instanceof KeyguardSliceButton) {
                     ((KeyguardSliceButton) child).setMaxWidth(width / childCount);
                 }
             }
@@ -833,6 +555,7 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
 
         @Override
         public void onOverlayChanged() {
+            setTextAppearance(sStyleId);
         }
 
         @Override

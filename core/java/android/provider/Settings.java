@@ -5886,66 +5886,6 @@ public final class Settings {
                 new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
 
         /**
-         * Change fonts for the system lockscreen clock widget
-         *
-         * @hide
-         */
-        public static final String LOCK_CLOCK_FONTS = "lock_clock_fonts";
-
-        /**
-         * Change fonts for the system lockscreen date
-         *
-         * @hide
-         */
-        public static final String LOCK_DATE_FONTS = "lock_date_fonts";
-
-        /**
-         * Change font size for the system lockscreen date
-         *
-         * @hide
-         */
-        public static final String LOCKDATE_FONT_SIZE= "lockdate_font_size";
-
-        /**
-         * Change font size for the system lockscreen clock widget
-         *
-         * @hide
-         */
-        public static final String LOCKCLOCK_FONT_SIZE = "lockclock_font_size";
-
-        /**
-         * Change fonts for the system lockscreen Owner info
-         *
-         * @hide
-         */
-        public static final String LOCK_OWNERINFO_FONTS = "lock_ownerinfo_fonts";
-
-        /**
-         * Change font size for the system lockscreen owner
-         *
-         * @hide
-         */
-        public static final String LOCKOWNER_FONT_SIZE= "lockowner_font_size";
-
-        /**
-         * Whether to show lockscreen clock
-         * @hide
-         */
-        public static final String LOCKSCREEN_CLOCK = "lockscreen_clock";
-
-        /** @hide */
-        private static final Validator LOCKSCREEN_CLOCK_VALIDATOR = BOOLEAN_VALIDATOR;
-
-        /**
-         * Whether to show the items underneath lockscreen clock
-         * @hide
-         */
-        public static final String LOCKSCREEN_INFO = "lockscreen_info";
-
-        /** @hide */
-        private static final Validator LOCKSCREEN_INFO_VALIDATOR = BOOLEAN_VALIDATOR;
-
-        /**
          * How many rows to show in the qs panel when in portrait
          * @hide
          */
@@ -6336,8 +6276,6 @@ public final class Settings {
             FOD_PRESSED_STATE,
             FOD_RECOGNIZING_ANIMATION,
             FOD_ANIM,
-            LOCKSCREEN_CLOCK,
-            LOCKSCREEN_INFO,
             QS_BLUR,
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
@@ -6551,8 +6489,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_RIGHT_DURATION);
-            PRIVATE_SETTINGS.add(LOCKSCREEN_CLOCK);
-            PRIVATE_SETTINGS.add(LOCKSCREEN_INFO);
             PRIVATE_SETTINGS.add(QS_BLUR);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
@@ -6746,8 +6682,6 @@ public final class Settings {
             VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
             VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
             VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
-            VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
-            VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
             VALIDATORS.put(QS_BLUR, QS_BLUR_VALIDATOR);
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
@@ -10808,21 +10742,6 @@ public final class Settings {
                 return valid;
             }
         };
-
-        /**
-         * Select which lockscreen clock style to display
-         * @hide
-         */
-        public static final String LOCKSCREEN_CLOCK_SELECTION = "lockscreen_clock_selection";
-
-        private static final Validator LOCKSCREEN_CLOCK_SELECTION_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 11);
-
-        /**
-         * Select which lockscreen date style to display
-         * @hide
-         */
-        public static final String LOCKSCREEN_DATE_SELECTION = "lockscreen_date_selection";
 
         /**
          * Whether the Lockdown button should be shown in the power menu.

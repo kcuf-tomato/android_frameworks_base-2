@@ -2275,15 +2275,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.LOCKSCREEN_CLOCK_SELECTION),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_CLOCK),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.LOCKSCREEN_DATE_SELECTION),
-                    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LONG_BACK_SWIPE_TIMEOUT),
                     false, this, UserHandle.USER_ALL);
@@ -2316,10 +2307,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     uri.equals(Settings.System.getUriFor(Settings.System.OMNI_QS_QUICKBAR_COLUMNS)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY))) {
                 setQsRowsColumns();
-            } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_CLOCK_SELECTION)) ||
-                    uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_CLOCK)) ||
-                    uri.equals(Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_DATE_SELECTION))) {
-                updateKeyguardStatusSettings();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.BACK_SWIPE_EXTENDED)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.LONG_BACK_SWIPE_TIMEOUT)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.LEFT_LONG_BACK_SWIPE_ACTION)) ||
@@ -2333,7 +2320,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         public void update() {
             setFpToDismissNotifications();
             setQsRowsColumns();
-            updateKeyguardStatusSettings();
             setGestureNavOptions();
         }
     }
@@ -2348,10 +2334,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         mFpDismissNotifications = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.FP_SWIPE_TO_DISMISS_NOTIFICATIONS, 0,
                 UserHandle.USER_CURRENT) == 1;
-    }
-
-    private void updateKeyguardStatusSettings() {
-        mNotificationPanel.updateKeyguardStatusSettings();
     }
 
     private void setQsRowsColumns() {
