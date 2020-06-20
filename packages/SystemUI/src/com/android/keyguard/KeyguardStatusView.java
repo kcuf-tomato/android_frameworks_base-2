@@ -291,36 +291,35 @@ public class KeyguardStatusView extends GridLayout implements
     private void refreshTime() {
         mClockView.refresh();
 
-        if (mClockSelection == 0) { // default
+        if (mClockSelection == 0) {
             mClockView.setFormat12Hour(Patterns.clockView12);
             mClockView.setFormat24Hour(Patterns.clockView24);
-        } else if (mClockSelection == 1) { // bold
+        } else if (mClockSelection == 1) {
             mClockView.setFormat12Hour(Html.fromHtml("<strong>h</strong>:mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<strong>kk</strong>:mm"));
-        } else if (mClockSelection == 2) { // accent
+        } else if (mClockSelection == 2) {
             mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">h:mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">kk:mm</font>"));
-        } else if (mClockSelection == 3) { // accent hour
+        } else if (mClockSelection == 3) {
             mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">h</font>:mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">kk</font>:mm"));
-        } else if (mClockSelection == 4) { // accent min
+        } else if (mClockSelection == 4) {
             mClockView.setFormat12Hour(Html.fromHtml("h<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">:mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("kk<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">:mm</font>"));
-        } else if (mClockSelection == 5) { // sammy
+        } else if (mClockSelection == 5) {
             mClockView.setFormat12Hour("hh\nmm");
             mClockView.setFormat24Hour("kk\nmm");
-        } else if (mClockSelection == 6) { // sammy bold
+        } else if (mClockSelection == 6) {
             mClockView.setFormat12Hour(Html.fromHtml("<strong>hh</strong><br>mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<strong>kk</strong><br>mm"));
-        } else if (mClockSelection == 7) { // sammy accent
-            mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">hh<br>mm</font>"));
-            mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">kk<br>mm</font>"));
-        } else if (mClockSelection == 8) { // sammy accent hour
+        } else if (mClockSelection == 7) {
             mClockView.setFormat12Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">hh</font><br>mm"));
             mClockView.setFormat24Hour(Html.fromHtml("<font color=" + getResources().getColor(R.color.accent_device_default_light) + ">kk</font><br>mm"));
-        } else if (mClockSelection == 9) { // sammy accent min
+        } else if (mClockSelection == 8) {
             mClockView.setFormat12Hour(Html.fromHtml("hh<br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("kk<br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
+        } else if (mClockSelection == 9 || mClockSelection == 10) {
+            mTextClock.onTimeChanged();
         }
     }
 
@@ -810,8 +809,22 @@ public class KeyguardStatusView extends GridLayout implements
         mClockView.setVisibility(mDarkAmount != 1
                 ? (mShowClock ? View.VISIBLE : View.GONE) : View.VISIBLE);
 
-        if (mClockSelection >= 5 && mClockSelection <= 9)
+        if (mClockSelection == 5 || mClockSelection == 6
+                || mClockSelection == 7 || mClockSelection == 8)
             mDefaultClockView.setLineSpacing(0, 0.8f);
+<<<<<<< HEAD
+=======
+
+        if (mClockSelection != 9 && mClockSelection != 10) {
+            mTextClock.setVisibility(View.GONE);
+            mSmallClockView.setVisibility(View.VISIBLE);
+            params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+        } else {
+            mTextClock.setVisibility(View.VISIBLE);
+            mSmallClockView.setVisibility(View.GONE);
+            params.addRule(RelativeLayout.BELOW, R.id.custom_text_clock_view);
+        }
+>>>>>>> parent of 717c43a9b21... base: Add full accent sammy clock style [1/2]
         updateDateStyles();
     }
 
@@ -819,6 +832,57 @@ public class KeyguardStatusView extends GridLayout implements
         updateSettings();
     }
 
+<<<<<<< HEAD
+=======
+    private void updateClockAlignment() {
+        final ContentResolver resolver = getContext().getContentResolver();
+
+        mTextClockAlignment = Settings.System.getIntForUser(resolver,
+                Settings.System.TEXT_CLOCK_ALIGNMENT, 0, UserHandle.USER_CURRENT);
+
+        mTextClock = findViewById(R.id.custom_text_clock_view);
+
+        if (mClockSelection == 9 || mClockSelection == 10) {
+            switch (mTextClockAlignment) {
+                case 0:
+                default:
+                    mTextClock.setGravity(Gravity.START);
+                    mTextClock.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
+                    mKeyguardSlice.setGravity(Gravity.START);
+                    mKeyguardSlice.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
+                    break;
+                case 1:
+                    mTextClock.setGravity(Gravity.CENTER);
+                    mTextClock.setPaddingRelative(0, 0, 0, 0);
+                    mKeyguardSlice.setGravity(Gravity.CENTER);
+                    mKeyguardSlice.setPaddingRelative(0, 0, 0, 0);
+                    break;
+                case 2:
+                    mTextClock.setGravity(Gravity.END);
+                    mTextClock.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
+                    mKeyguardSlice.setGravity(Gravity.END);
+                    mKeyguardSlice.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
+                    break;
+                case 3:
+                    mTextClock.setGravity(Gravity.START);
+                    mTextClock.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
+                    mKeyguardSlice.setGravity(Gravity.END);
+                    mKeyguardSlice.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
+                    break;
+                case 4:
+                    mTextClock.setGravity(Gravity.END);
+                    mTextClock.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
+                    mKeyguardSlice.setGravity(Gravity.START);
+                    mKeyguardSlice.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
+                    break;
+            }
+        } else {
+            mKeyguardSlice.setPaddingRelative(0, 0, 0, 0);
+            mKeyguardSlice.setGravity(Gravity.CENTER);
+        }
+    }
+
+>>>>>>> parent of 717c43a9b21... base: Add full accent sammy clock style [1/2]
     // DateFormat.getBestDateTimePattern is extremely expensive, and refresh is called often.
     // This is an optimization to ensure we only recompute the patterns when the inputs change.
     private static final class Patterns {
