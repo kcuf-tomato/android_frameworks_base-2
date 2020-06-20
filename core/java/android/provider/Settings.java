@@ -5886,13 +5886,6 @@ public final class Settings {
                 new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
 
         /**
-         * Change fonts for the system lockscreen clock widget
-         *
-         * @hide
-         */
-        public static final String LOCK_CLOCK_FONTS = "lock_clock_fonts";
-
-        /**
          * How many rows to show in the qs panel when in portrait
          * @hide
          */
