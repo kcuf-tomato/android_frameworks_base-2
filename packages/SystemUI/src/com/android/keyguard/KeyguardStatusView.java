@@ -318,8 +318,6 @@ public class KeyguardStatusView extends GridLayout implements
         } else if (mClockSelection == 8) {
             mClockView.setFormat12Hour(Html.fromHtml("hh<br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
             mClockView.setFormat24Hour(Html.fromHtml("kk<br><font color=" + getResources().getColor(R.color.accent_device_default_light) + ">mm</font>"));
-        } else if (mClockSelection == 9 || mClockSelection == 10) {
-            mTextClock.onTimeChanged();
         }
     }
 
@@ -813,15 +811,6 @@ public class KeyguardStatusView extends GridLayout implements
                 || mClockSelection == 7 || mClockSelection == 8)
             mDefaultClockView.setLineSpacing(0, 0.8f);
 
-        if (mClockSelection != 9 && mClockSelection != 10) {
-            mTextClock.setVisibility(View.GONE);
-            mSmallClockView.setVisibility(View.VISIBLE);
-            params.addRule(RelativeLayout.BELOW, R.id.clock_view);
-        } else {
-            mTextClock.setVisibility(View.VISIBLE);
-            mSmallClockView.setVisibility(View.GONE);
-            params.addRule(RelativeLayout.BELOW, R.id.custom_text_clock_view);
-        }
         updateDateStyles();
     }
 
