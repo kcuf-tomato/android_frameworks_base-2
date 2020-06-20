@@ -812,8 +812,6 @@ public class KeyguardStatusView extends GridLayout implements
         if (mClockSelection == 5 || mClockSelection == 6
                 || mClockSelection == 7 || mClockSelection == 8)
             mDefaultClockView.setLineSpacing(0, 0.8f);
-<<<<<<< HEAD
-=======
 
         if (mClockSelection != 9 && mClockSelection != 10) {
             mTextClock.setVisibility(View.GONE);
@@ -824,7 +822,6 @@ public class KeyguardStatusView extends GridLayout implements
             mSmallClockView.setVisibility(View.GONE);
             params.addRule(RelativeLayout.BELOW, R.id.custom_text_clock_view);
         }
->>>>>>> parent of 717c43a9b21... base: Add full accent sammy clock style [1/2]
         updateDateStyles();
     }
 
@@ -832,57 +829,6 @@ public class KeyguardStatusView extends GridLayout implements
         updateSettings();
     }
 
-<<<<<<< HEAD
-=======
-    private void updateClockAlignment() {
-        final ContentResolver resolver = getContext().getContentResolver();
-
-        mTextClockAlignment = Settings.System.getIntForUser(resolver,
-                Settings.System.TEXT_CLOCK_ALIGNMENT, 0, UserHandle.USER_CURRENT);
-
-        mTextClock = findViewById(R.id.custom_text_clock_view);
-
-        if (mClockSelection == 9 || mClockSelection == 10) {
-            switch (mTextClockAlignment) {
-                case 0:
-                default:
-                    mTextClock.setGravity(Gravity.START);
-                    mTextClock.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
-                    mKeyguardSlice.setGravity(Gravity.START);
-                    mKeyguardSlice.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
-                    break;
-                case 1:
-                    mTextClock.setGravity(Gravity.CENTER);
-                    mTextClock.setPaddingRelative(0, 0, 0, 0);
-                    mKeyguardSlice.setGravity(Gravity.CENTER);
-                    mKeyguardSlice.setPaddingRelative(0, 0, 0, 0);
-                    break;
-                case 2:
-                    mTextClock.setGravity(Gravity.END);
-                    mTextClock.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
-                    mKeyguardSlice.setGravity(Gravity.END);
-                    mKeyguardSlice.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
-                    break;
-                case 3:
-                    mTextClock.setGravity(Gravity.START);
-                    mTextClock.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
-                    mKeyguardSlice.setGravity(Gravity.END);
-                    mKeyguardSlice.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
-                    break;
-                case 4:
-                    mTextClock.setGravity(Gravity.END);
-                    mTextClock.setPaddingRelative(0, 0, updateTextClockPadding(), 0);
-                    mKeyguardSlice.setGravity(Gravity.START);
-                    mKeyguardSlice.setPaddingRelative(updateTextClockPadding(), 0, 0, 0);
-                    break;
-            }
-        } else {
-            mKeyguardSlice.setPaddingRelative(0, 0, 0, 0);
-            mKeyguardSlice.setGravity(Gravity.CENTER);
-        }
-    }
-
->>>>>>> parent of 717c43a9b21... base: Add full accent sammy clock style [1/2]
     // DateFormat.getBestDateTimePattern is extremely expensive, and refresh is called often.
     // This is an optimization to ensure we only recompute the patterns when the inputs change.
     private static final class Patterns {
