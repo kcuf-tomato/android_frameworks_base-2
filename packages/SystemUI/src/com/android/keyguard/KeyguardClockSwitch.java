@@ -326,6 +326,14 @@ public class KeyguardClockSwitch extends RelativeLayout {
         }
     }
 
+    public void setTextFont(Typeface tf) {
+        mClockView.getPaint().setTypeface(tf);
+        mClockViewBold.getPaint().setTypeface(tf);
+        if (mClockPlugin != null && mClockPlugin.getName().equals("type")) {
+            mClockPlugin.setTypeface(tf);
+        }
+    }
+
     public void setShowCurrentUserTime(boolean showCurrentUserTime) {
         mClockView.setShowCurrentUserTime(showCurrentUserTime);
         mClockViewBold.setShowCurrentUserTime(showCurrentUserTime);
