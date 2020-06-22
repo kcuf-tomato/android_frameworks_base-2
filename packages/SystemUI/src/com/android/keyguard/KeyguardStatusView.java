@@ -284,6 +284,10 @@ public class KeyguardStatusView extends GridLayout implements
             mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_18));
         }
+        if (mKeyguardSlice != null) {
+            // Dont hide slice view in doze
+            mKeyguardSlice.setVisibility(mDarkAmount != 1 ? (mLockDateHide ? View.GONE : View.VISIBLE) : View.VISIBLE);
+        }
         loadBottomMargin();
     }
 
@@ -883,6 +887,7 @@ public class KeyguardStatusView extends GridLayout implements
         mKeyguardSlice.setDarkAmount(mDarkAmount);
         mClockView.setTextColor(blendedTextColor);
         updateSettings();
+        onDensityOrFontScaleChanged();
     }
 
     private void layoutOwnerInfo() {
