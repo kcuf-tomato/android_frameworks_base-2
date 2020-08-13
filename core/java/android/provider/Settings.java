@@ -5887,16 +5887,6 @@ public final class Settings {
                 new SettingsValidators.InclusiveIntegerRangeValidator(0, 2);
 
         /**
-         * FOD recognizing animation picker
-         * @hide
-         */
-        public static final String FOD_ANIM = "fod_anim";
-
-        /** @hide */
-        private static final Validator FOD_ANIM_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
-
-        /**
          * Change fonts for the system lockscreen clock widget
          *
          * @hide
