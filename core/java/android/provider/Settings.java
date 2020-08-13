@@ -5867,16 +5867,6 @@ public final class Settings {
         private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
 
         /**
-         * FOD pressed state
-         * @hide
-         */
-        public static final String FOD_PRESSED_STATE = "fod_pressed_state";
-
-        /** @hide */
-        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 2);
-
-        /**
          * Change fonts for the system lockscreen clock widget
          *
          * @hide
