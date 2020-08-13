@@ -33,7 +33,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.hardware.biometrics.BiometricSourceType;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Handler;
 import android.os.UserHandle;
@@ -108,7 +107,7 @@ public class FODCircleView extends ImageView {
         R.drawable.fod_icon_cpt_america_flat,
         R.drawable.fod_icon_cpt_america_flat_gray,
         R.drawable.fod_icon_dragon_black_flat,
-        R.drawable.fod_icon_future,
+        R.drawable.fod_icon_evo1,
         R.drawable.fod_icon_glow_circle,
         R.drawable.fod_icon_neon_arc,
         R.drawable.fod_icon_neon_arc_gray,
@@ -118,7 +117,10 @@ public class FODCircleView extends ImageView {
         R.drawable.fod_icon_rainbow_horn,
         R.drawable.fod_icon_shooky,
         R.drawable.fod_icon_spiral_blue,
-        R.drawable.fod_icon_sun_metro
+        R.drawable.fod_icon_sun_metro,
+        R.drawable.fod_icon_scratch_red_blue,
+        R.drawable.fod_icon_scratch_pink_blue,
+        R.drawable.fod_icon_transparent
     };
 
     private int mPressedIcon;
@@ -167,6 +169,7 @@ public class FODCircleView extends ImageView {
         public void onKeyguardVisibilityChanged(boolean showing) {
             mIsKeyguard = showing;
             updateStyle();
+            updatePosition();
             if (mFODAnimation != null) {
                 mFODAnimation.setAnimationKeyguard(mIsKeyguard);
             }
@@ -531,6 +534,11 @@ public class FODCircleView extends ImageView {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown rotation: " + rotation);
+        }
+
+        if (mIsKeyguard) {
+            mParams.x = mPositionX;
+            mParams.y = mPositionY;
         }
 
         if (mIsDreaming) {
