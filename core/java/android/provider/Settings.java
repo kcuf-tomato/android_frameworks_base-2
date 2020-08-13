@@ -5858,45 +5858,6 @@ public final class Settings {
         public static final String RINGTONE_VIBRATION_PATTERN = "ringtone_vibration_pattern";
 
         /**
-         * FOD icon picker
-         * @hide
-         */
-        public static final String FOD_ICON = "fod_icon";
-
-        /** @hide */
-        private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
-
-        /**
-         * FOD recognizing animation
-         * @hide
-         */
-        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
-
-        /** @hide */
-        private static final Validator FOD_RECOGNIZING_ANIMATION_VALIDATOR =
-                BOOLEAN_VALIDATOR;
-
-        /**
-         * FOD pressed state
-         * @hide
-         */
-        public static final String FOD_PRESSED_STATE = "fod_pressed_state";
-
-        /** @hide */
-        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 6);
-
-        /**
-         * FOD recognizing animation picker
-         * @hide
-         */
-        public static final String FOD_ANIM = "fod_anim";
-
-        /** @hide */
-        private static final Validator FOD_ANIM_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 15);
-
-        /**
          * Change fonts for the system lockscreen clock widget
          *
          * @hide
@@ -6262,6 +6223,7 @@ public final class Settings {
          */
         public static final String ACCENT_COLOR = "accent_color";
 
+
         /** @hide */
         private static final Validator ACCENT_COLOR_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
@@ -6412,10 +6374,6 @@ public final class Settings {
             PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_RIGHT_DURATION,
-            FOD_ICON,
-            FOD_PRESSED_STATE,
-            FOD_RECOGNIZING_ANIMATION,
-            FOD_ANIM,
             LOCKSCREEN_CLOCK,
             LOCKSCREEN_INFO,
             QS_BLUR,
@@ -6844,10 +6802,6 @@ public final class Settings {
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT, PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_COLOR_RIGHT, PULSE_AMBIENT_LIGHT_COLOR_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_RIGHT_DURATION, PULSE_AMBIENT_LIGHT_RIGHT_DURATION_VALIDATOR);
-            VALIDATORS.put(FOD_ICON, FOD_ICON_VALIDATOR);
-            VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
-            VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
-            VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
             VALIDATORS.put(QS_BLUR, QS_BLUR_VALIDATOR);

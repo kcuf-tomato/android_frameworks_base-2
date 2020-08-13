@@ -70,10 +70,6 @@
    <java-symbol type="bool" name="config_multiColorBatteryLed" />
    <java-symbol type="bool" name="config_ledCanPulse" />
 
-	
-  <!-- Whether to show a custom view for FOD -->
-  <java-symbol type="bool" name="config_needCustomFODView" />
-
   <!-- Whether device supports an alt. ambient display -->
   <java-symbol type="bool" name="config_alt_ambient_display"/>
 
@@ -184,12 +180,6 @@
 
   <!-- Device has OnePlus haptic motor -->
   <java-symbol type="bool" name="config_hasOnePlusHapticMotor" />
-
-  <!-- Library path of screen off fod handler -->
-  <java-symbol type="string" name="config_fodScreenOffHandlerLib" />
-
-  <!-- Class name of screen off fod handler -->
-  <java-symbol type="string" name="config_fodScreenOffHandlerClass" />
 
   <!-- SystemUI Restart -->
   <java-symbol type="string" name="systemui_restart_title" />

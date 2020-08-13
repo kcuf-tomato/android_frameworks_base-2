@@ -92,9 +92,6 @@
          Used to decide if we show pulse settings -->
     <bool name="config_ledCanPulse">true</bool>
 
-    <!-- Whether to show a custom view for FOD -->
-    <bool name="config_needCustomFODView">false</bool>
-
     <string-array translatable="false" name="config_customPermissionsList">
         <item>com.google.android.apps.wellbeing</item>
     </string-array>
@@ -142,11 +139,5 @@
          timing(the duration which the vibrator is expected to vibrate for). -->
     <bool name="config_hasOnePlusHapticMotor">false</bool>
 
-    <!-- Library path of screen off fod handler -->
-    <string name="config_fodScreenOffHandlerLib" translatable="false"></string>
-
-    <!-- Class name of screen off fod handler -->
-    <string name="config_fodScreenOffHandlerClass" translatable="false"></string>
-
-     <bool name="config_has_Soli">false</bool>
+    <bool name="config_has_Soli">false</bool>
 </resources>
