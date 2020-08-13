@@ -5858,15 +5858,6 @@ public final class Settings {
         public static final String RINGTONE_VIBRATION_PATTERN = "ringtone_vibration_pattern";
 
         /**
-         * FOD icon picker
-         * @hide
-         */
-        public static final String FOD_ICON = "fod_icon";
-
-        /** @hide */
-        private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
-
-        /**
          * Change fonts for the system lockscreen clock widget
          *
          * @hide
