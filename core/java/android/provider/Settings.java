@@ -5867,16 +5867,6 @@ public final class Settings {
         private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
 
         /**
-         * FOD recognizing animation
-         * @hide
-         */
-        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
-
-        /** @hide */
-        private static final Validator FOD_RECOGNIZING_ANIMATION_VALIDATOR =
-                BOOLEAN_VALIDATOR;
-
-        /**
          * FOD pressed state
          * @hide
          */
